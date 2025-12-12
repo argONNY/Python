@@ -1,0 +1,40 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<article class="post">
+    <h2>{{ post.title }}</h2>
+    {% if post.image %}
+        <img src="{{ post.image.url }}" alt="{{ post.title }}">
+    {% endif %}
+    <p>{{ post.content|linebreaks }}</p>
+    <div class="post-meta">
+        <p><strong>Автор:</strong> {{ post.author }}</p>
+        <p><strong>Опубликовано:</strong> {{ post.published_date|date:"d.m.Y H:i" }}</p>
+        <p><strong>Категория:</strong> <a href="{% url 'category_posts' category_id=post.category.id %}">{{ post.category.name }}</a></p>
+    </div>
+</article>
+
+<hr>
+
+<h3>Комментарии ({{ comments.count }})</h3>
+
+{% for comment in comments %}
+    <div class="post" style="background: #f9f9f9; padding: 1rem; margin-bottom: 1rem;">
+        <strong>{{ comment.author }}</strong> — {{ comment.created_date|date:"d.m.Y H:i" }}
+        <p>{{ comment.text|linebreaks }}</p>
+    </div>
+{% empty %}
+    <p>Нет комментариев. Будьте первым!</p>
+{% endfor %}
+
+<h3>Оставить комментарий</h3>
+<form method="post">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <button type="submit" style="padding: 0.5rem 1rem; background: #28a745; color: white; border: none;">Отправить</button>
+</form>
+
+<a href="{% url 'post_list' %}">← Назад к списку постов</a>
+{% endblock %}

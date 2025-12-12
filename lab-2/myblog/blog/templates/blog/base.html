@@ -1,0 +1,38 @@
+<!-- blog/templates/blog/base.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Мой Блог{% endblock %}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        .header { background: #333; color: white; padding: 1rem; }
+        .nav { background: #f4f4f4; padding: 1rem; }
+        .content { padding: 2rem; }
+        .post { border: 1px solid #ddd; margin-bottom: 1rem; padding: 1rem; }
+        .post img { max-width: 200px; }
+    </style>
+</head>
+<body>
+
+    
+    <div class="header">
+        <h1><a href="/" style="color: white; text-decoration: none;">Мой Персональный Блог</a></h1>
+    </div>
+    
+    <div class="nav">
+        <a href="/">Главная</a> |
+        <a href="/admin/">Админ-панель</a>
+         <form method="get" action="{% url 'post_search' %}" style="display: inline; margin-left: 2rem;">
+        <input type="text" name="q" placeholder="Поиск..." style="padding: 0.25rem; font-size: 0.9rem;">
+        <button type="submit" style="padding: 0.25rem; font-size: 0.9rem;">Найти</button>
+    </form>
+    </div>
+    
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
